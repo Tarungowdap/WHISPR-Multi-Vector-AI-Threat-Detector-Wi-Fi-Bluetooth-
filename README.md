@@ -20,3 +20,6 @@ View: Navigate to http://127.0.0.1:5000/scan.html
 ![Homepage](homepage.png)
 
 ![WiFi Scan](wifiscan.png)
+
+![Bluetooth Scan](bluetoothscan.png)
+
