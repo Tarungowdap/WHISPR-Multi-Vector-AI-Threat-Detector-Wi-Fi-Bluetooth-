@@ -1,0 +1,484 @@
+/* --- CRITICAL: FONT LOADING --- */
+/* CORRECTED: Now looking for 'ntg.otf' (OpenType Font) */
+@font-face {
+    font-family: 'Ndot 47';
+    /* Ensure the font file 'ntg.otf' is in the same directory as this CSS file. */
+    src: url('m.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Import Poppins from Google Fonts (for light text/body copy) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+
+/* --- Global Styles and Typography --- */
+:root {
+    /* DEFAULT (DARK) MODE COLORS */
+    --color-dark: #000000;
+    --color-dark-alt: #000000;
+    --color-neon-blue: #FFFFFF;
+    --color-neon-pink: #87CEEB; /* Light Blue */
+    
+    /* LIGHT/BODY TEXT COLOR: CHANGED TO OFF-WHITE #F5F5F5 */
+    --color-text-light: #F5F5F5; 
+    
+    --color-text-fade: #9AAAB0;
+    /* Main stack uses custom font */
+    --font-stack-main: 'Ndot 47', monospace; 
+    /* Secondary stack uses Poppins */
+    --font-stack-secondary: 'Poppins', sans-serif;
+}
+
+/* --- LIGHT MODE DEFINITION --- */
+.light-mode {
+    --color-dark: #FFFFFF;         /* Background becomes White */
+    --color-dark-alt: #F0F0F0;     /* Alternate background becomes Light Grey */
+    --color-neon-blue: #1A1A1A;    /* Primary highlight/titles become Dark */
+    --color-neon-pink: #FF69B4;    /* Secondary accent becomes Hot Pink */
+    --color-text-light: #333333;   /* Light text (now dark) */
+    --color-text-fade: #666666;    /* Faded text becomes Medium Grey */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* DEFAULT FONT for anything not specified (Poppins) */
+    font-family: var(--font-stack-secondary);
+    background-color: var(--color-dark);
+    /* Sets the body text color to the new white (#F5F5F5) */
+    color: var(--color-text-light); 
+    line-height: 1.6;
+    overflow-x: hidden; 
+}
+
+/* Ensure Headers, Logos, and Buttons retain the custom font */
+h1, h2, h3, h4, .logo, .cta-button {
+    font-family: var(--font-stack-main);
+}
+
+/* NEW: poppins-text class explicitly applies the correct font stack (used in docx2.html) */
+.poppins-text {
+    font-family: var(--font-stack-secondary);
+    color: var(--color-text-light); 
+}
+
+
+h1, h2, h3 {
+    font-weight: 700;
+    color: var(--color-neon-blue); 
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
+    transition: all 0.5s ease;
+}
+/* Light mode specific adjustment for titles */
+.light-mode h1, .light-mode h2, .light-mode h3 {
+    text-shadow: none;
+}
+
+h1 { font-size: 3.5rem; }
+h2 { 
+    font-size: 2.5rem; 
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+a {
+    color: var(--color-neon-blue); 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-neon-pink); 
+}
+
+/* Utility Classes */
+.content-section {
+    padding: 6rem 10%;
+    position: relative;
+    z-index: 1;
+}
+
+.dark-bg {
+    background-color: var(--color-dark-alt);
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    transition: all 0.5s ease;
+}
+.light-mode .dark-bg {
+    border-top: 1px solid rgba(0, 0, 0, 0.1); 
+}
+
+/* --- Navigation --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 10%;
+    background-color: rgba(10, 10, 26, 0.95);
+    backdrop-filter: blur(5px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+    transition: all 0.5s ease;
+}
+.light-mode .navbar {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); 
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-neon-pink); 
+}
+
+.navbar a, .navbar button {
+    margin-left: 20px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.cta-button {
+    background-color: var(--color-neon-blue); 
+    color: var(--color-dark);
+    border: 2px solid var(--color-neon-blue); 
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--color-neon-pink); 
+    color: var(--color-dark);
+    border-color: var(--color-neon-pink); 
+    box-shadow: 0 0 15px var(--color-neon-pink); 
+}
+.light-mode .cta-button:hover {
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.5); /* Hot pink shadow */
+}
+
+/* --- Hero Section & Animations --- */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    padding: 0 10%;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Subtle background grid pattern with animation (DARK MODE) */
+    background: 
+        repeating-linear-gradient(0deg, var(--color-dark) 0, var(--color-dark) 10px, rgba(255, 255, 255, 0.03) 11px, rgba(255, 255, 255, 0.03) 12px), 
+        repeating-linear-gradient(90deg, var(--color-dark) 0, var(--color-dark) 10px, rgba(255, 255, 255, 0.03) 11px, rgba(255, 255, 255, 0.03) 12px); 
+    background-size: 50px 50px;
+    opacity: 0.3;
+    animation: background-scan 20s linear infinite; 
+    z-index: 0;
+}
+/* Light mode grid adjustment */
+.light-mode .hero-section::before {
+     background: 
+        repeating-linear-gradient(0deg, var(--color-dark) 0, var(--color-dark) 10px, rgba(0, 0, 0, 0.05) 11px, rgba(0, 0, 0, 0.05) 12px), 
+        repeating-linear-gradient(90deg, var(--color-dark) 0, var(--color-dark) 10px, rgba(0, 0, 0, 0.05) 11px, rgba(0, 0, 0, 0.05) 12px); 
+    opacity: 1;
+}
+
+@keyframes background-scan {
+    from { background-position: 0 0; }
+    to { background-position: -50px -50px; }
+}
+
+.hero-content {
+    max-width: 50%;
+    z-index: 10;
+    animation: fadeInSlideRight 1.5s ease-out;
+}
+
+.hero-content h1 {
+    margin-bottom: 1rem;
+    font-size: 4.5rem;
+}
+
+.hero-content p {
+    color: var(--color-text-fade);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.main-cta-button {
+    display: inline-block;
+    background-color: transparent;
+    border: 2px solid var(--color-neon-pink); 
+    color: var(--color-neon-pink); 
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.main-cta-button:hover {
+    background-color: var(--color-neon-pink); 
+    color: var(--color-dark);
+    box-shadow: 0 0 20px var(--color-neon-pink), inset 0 0 10px rgba(0,0,0,0.5); 
+    transform: translateY(-3px);
+}
+
+/* The abstract visual element */
+.hero-visual {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    border: 2px solid var(--color-neon-blue); 
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6); 
+    animation: pulse 2s infinite alternate, rotate3D 10s linear infinite;
+    transform-style: preserve-3d;
+}
+
+/* Scanning Radar Effect */
+.hero-visual::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border-right: 2px solid var(--color-neon-pink); 
+    transform-origin: 0% 0%;
+    transform: rotateZ(0deg) translate(-50%, -50%);
+    animation: radar-sweep 4s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes fadeInSlideRight {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+    from { transform: scale(1); box-shadow: 0 0 30px var(--color-neon-blue); } 
+    to { transform: scale(1.05); box-shadow: 0 0 50px var(--color-neon-blue); } 
+}
+
+@keyframes rotate3D {
+    from { transform: perspective(800px) rotateY(0deg) rotateX(15deg); }
+    to { transform: perspective(800px) rotateY(360deg) rotateX(15deg); }
+}
+
+@keyframes radar-sweep {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* --- Problem & Solution Sections --- */
+.problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.grid-item {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    border-left: 3px solid var(--color-neon-pink); 
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+.light-mode .grid-item {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.grid-item:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 0, 0, 0.6);
+}
+.light-mode .grid-item:hover {
+    background: rgba(240, 240, 240, 1);
+}
+
+.grid-item h3 {
+    color: var(--color-neon-pink); 
+    margin-bottom: 10px;
+}
+
+.solution-details {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.solution-details ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.solution-details li::before {
+    content: '>>';
+    color: var(--color-neon-blue); 
+    margin-right: 10px;
+}
+
+/* --- How It Works Section --- */
+.steps-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.step-card {
+    background: var(--color-dark);
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 8px;
+    max-width: 250px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+.light-mode .step-card {
+    background: var(--color-dark);
+    border: 1px solid rgba(0, 0, 0, 0.2); 
+}
+
+
+.step-card:hover {
+    border-color: var(--color-neon-blue); 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4); 
+}
+.light-mode .step-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+}
+
+.step-number {
+    display: inline-block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-neon-blue); 
+    margin-bottom: 15px;
+    /* Glitch/flicker animation for numbers */
+    animation: text-flicker 3s infinite alternate;
+}
+
+@keyframes text-flicker {
+    0% { text-shadow: none; opacity: 1; }
+    5% { text-shadow: 0 0 5px var(--color-neon-pink); opacity: 0.8; } 
+    10% { text-shadow: none; opacity: 1; }
+    15% { text-shadow: 0 0 5px var(--color-neon-blue); opacity: 0.9; } 
+    20% { text-shadow: none; opacity: 1; }
+    100% { text-shadow: none; opacity: 1; }
+}
+
+/* --- Passive Detection Method Section --- */
+.method-list {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    text-align: center;
+}
+
+.method-item {
+    flex: 1;
+    padding: 20px;
+    border-bottom: 3px solid var(--color-neon-blue); 
+    background: rgba(255, 255, 255, 0.05); 
+}
+.light-mode .method-item {
+    background: rgba(0, 0, 0, 0.05); 
+}
+
+.method-item h4 {
+    color: var(--color-neon-blue); 
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+
+/* --- Footer --- */
+.footer-section {
+    padding: 4rem 10%;
+    text-align: center;
+    border-top: 1px dashed var(--color-text-fade);
+}
+
+.footer-section p {
+    font-style: italic;
+    color: var(--color-neon-pink); 
+    margin-bottom: 2rem;
+}
+
+.team-info {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--color-text-fade);
+}
+
+.footer-section .main-cta-button.large {
+    font-size: 1.5rem;
+    padding: 20px 40px;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1024px) {
+    .hero-section {
+        flex-direction: column;
+        height: auto;
+        padding-top: 8rem;
+        padding-bottom: 4rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    .hero-visual {
+        width: 300px;
+        height: 300px;
+    }
+
+    .problem-grid, .steps-container, .method-list {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .step-card {
+        max-width: none;
+    }
+
+    .solution-details ul {
+        flex-direction: column;
+        align-items: center;
+    }
+}

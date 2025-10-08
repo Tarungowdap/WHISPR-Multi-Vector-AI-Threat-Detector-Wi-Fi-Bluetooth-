@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHISPR Scan & Report</title>
+    <!-- Combined CSS for self-containment -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- General CSS (Based on style.css) --- */
+        :root {
+            --color-dark: #000000;
+            --color-dark-alt: #000000;
+            --color-neon-blue: #FFFFFF;
+            --color-neon-pink: #87CEEB; /* Light Blue/Cyan for accent */
+            --color-text-light: #fb8248;
+            --color-text-fade: #9AAAB0;
+            --font-stack: 'Fira Code', monospace; 
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--color-dark);
+            color: var(--color-text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--color-neon-blue); 
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); 
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 10%;
+            background-color: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(5px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid var(--color-neon-blue);
+        }
+        .logo { font-size: 1.5rem; color: var(--color-neon-pink); }
+        .main-cta-button {
+            background-color: transparent;
+            border: 2px solid var(--color-neon-pink);
+            color: var(--color-neon-pink);
+            padding: 8px 15px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .main-cta-button:hover {
+            background-color: var(--color-neon-pink);
+            color: var(--color-dark);
+        }
+
+        /* --- View Containers --- */
+        .scan-screen, .report-screen {
+            width: 100%;
+            max-width: 1000px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        /* SCAN CONTAINER */
+        .scan-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            margin: 15vh auto 0;
+            background: var(--color-dark-alt);
+            border: 2px solid var(--color-neon-blue);
+            box-shadow: 0 0 20px var(--color-neon-blue); 
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* REPORT CONTAINER */
+        .report-screen {
+            display: none; /* Hidden until scan is complete */
+            opacity: 0;
+            transition: opacity 1s ease;
+            padding-top: 8rem;
+        }
+        
+        .report-header { text-align: center; margin-bottom: 3rem; }
+        .report-metadata {
+            display: flex; justify-content: center; gap: 40px; font-size: 0.9rem;
+            color: var(--color-text-fade); border-top: 1px dotted var(--color-text-fade);
+            padding-top: 15px; margin-top: 20px;
+        }
+        .metadata-item span { color: var(--color-neon-blue); font-weight: bold; }
+        
+        .raw-data-display {
+            margin: 0 auto 3rem; padding: 20px; border: 1px solid var(--color-neon-blue);
+            background: rgba(0, 229, 255, 0.05); text-align: left;
+        }
+        .raw-data-display code {
+            display: block; background: rgba(0, 0, 0, 0.5); padding: 10px;
+            color: #00FF7F; font-size: 0.9rem;
+        }
+
+        /* THREAT STATUS BAR */
+        .threat-status {
+            background: linear-gradient(90deg, var(--color-neon-pink), rgba(255, 0, 0, 0.4));
+            padding: 20px; text-align: center; margin: 2rem 0;
+            border: 2px solid var(--color-neon-pink); box-shadow: 0 0 15px var(--color-neon-pink);
+            transition: all 0.5s ease;
+        }
+        .threat-status h2 { margin: 0; color: var(--color-text-light); font-size: 2rem; }
+
+        .threat-details {
+            padding: 0 1rem;
+        }
+
+        /* NEW: Network List Table Styles */
+        .network-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        .network-table th {
+            color: var(--color-neon-blue);
+            border-bottom: 2px solid var(--color-neon-blue);
+            padding: 10px 15px 10px 0;
+            text-align: left;
+        }
+        .network-table td {
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            padding: 8px 15px 8px 0;
+            color: var(--color-text-light);
+        }
+        .network-table tr:last-child td {
+            border-bottom: none;
+        }
+        .threat-row {
+            color: #FF4500 !important; /* Orange-Red for threat */
+            font-weight: bold;
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        /* NEW: Action/Info Icon Style */
+        .info-icon {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            border: 1px solid var(--color-neon-blue);
+            color: var(--color-neon-blue);
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        .info-icon:hover {
+            color: var(--color-dark);
+            background-color: var(--color-neon-pink);
+            border-color: var(--color-neon-pink);
+        }
+
+        /* --- MODAL STYLES --- */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: var(--color-dark-alt);
+            margin: 10% auto; 
+            padding: 20px;
+            border: 1px solid var(--color-neon-blue);
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 25px var(--color-neon-blue);
+        }
+
+        .modal-content pre {
+            background-color: var(--color-dark);
+            color: #00FF7F;
+            padding: 15px;
+            overflow-x: auto;
+        }
+
+        .close-button {
+            color: var(--color-neon-pink);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #FF4500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+        /* --- Scan Animation Styles --- */
+        .status-message {
+            font-size: 1.5rem; color: var(--color-neon-pink); margin-bottom: 20px; height: 30px;
+        }
+
+        .progress-bar {
+            width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; margin-bottom: 30px; overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%; width: 0; background: linear-gradient(90deg, transparent, var(--color-neon-blue)); box-shadow: 0 0 8px var(--color-neon-blue); transition: width 0.5s linear;
+        }
+        
+        .scan-radar {
+            width: 150px; height: 150px; border-radius: 50%; border: 2px dashed var(--color-neon-blue); margin: 30px auto; position: relative; animation: pulse-scan 1s infinite alternate; 
+        }
+
+        .scan-radar::before {
+            content: ''; position: absolute; top: 0; left: 50%; width: 50%; height: 100%; background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--color-neon-blue)); transform-origin: 0% 50%; animation: radar-sweep 2s linear infinite; opacity: 0.5; border-radius: 0 100% 100% 0;
+        }
+
+        @keyframes pulse-scan { from { box-shadow: 0 0 10px var(--color-neon-blue); } to { box-shadow: 0 0 30px var(--color-neon-blue); } }
+        @keyframes radar-sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo glitch" data-text="WHISPR">WHISPR</div>
+        <nav>
+            <button id="theme-toggle" class="main-cta-button" style="margin-right: 20px;">Mode: Dark</button>
+            <a href="docx2.html" class="main-cta-button">Secure Exit</a>
+        </nav>
+    </header>
+
+    <!-- 1. SCANNING VIEW (Initial view) -->
+    <section id="scanning" class="scan-screen">
+        <div class="scan-container">
+            <h2>PROTOCOL ACTIVATED</h2>
+            
+            <div class="scan-radar" id="scan-radar"></div>
+
+            <p class="status-message" id="status-text">Initializing AI Core Connection...</p>
+
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+            
+            <div id="scan-results" style="opacity:0; margin-top:20px;">
+                <div class="result-box">
+                    <div class="count" id="threat-count">0</div>
+                    <div class="label">Threats Detected</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. REPORT VIEW (Displayed after scan finishes) -->
+    <section id="report-view" class="report-screen">
+        <div class="report-header">
+            <h1>PROTOCOL DIAGNOSTIC REPORT</h1>
+            <div class="report-metadata">
+                <div class="metadata-item">Scan Time: <span id="scan-time"></span></div>
+                <div class="metadata-item">Connected Network: <span id="connected-ssid">UNKNOWN</span></div>
+                <div class="metadata-item">Report ID: <span id="report-id"></span></div>
+            </div>
+        </div>
+        
+        <div class="raw-data-display">
+             <h4>Raw Scan Data Sent to AI Core:</h4>
+             <code id="raw-features-output">Awaiting Data...</code>
+             <p style="margin-top: 10px; color: var(--color-text-fade);">Order: [RSSI\_MEAN, RSSI\_VARIANCE, PROBE\_RATE, OUI\_TRUST\_SCORE, ANOMALY\_FLAG]</p>
+        </div>
+
+        <div class="threat-status">
+            <h2 id="threat-h2">THREAT LEVEL: UNKNOWN</h2>
+        </div>
+
+        <div class="threat-details" id="threat-details">
+            <!-- Content will be generated by JavaScript -->
+        </div>
+        
+        <div class="raw-data-display" style="margin-top: 4rem;">
+            <h4>Network List Analysis (All Scanned Networks)</h4>
+            <table class="network-table" id="network-list-table">
+                <thead>
+                    <tr>
+                        <th>SSID</th>
+                        <th>Signal</th>
+                        <th>Security</th>
+                        <th>Status</th>
+                        <th>Action</th> <!-- NEW COLUMN -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Network rows inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- The Modal Structure -->
+    <div id="rawDataModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('rawDataModal').style.display='none'">&times;</span>
+            <h3 style="color: var(--color-neon-pink);">Full Network Data (JSON)</h3>
+            <pre id="modal-json-content"></pre>
+        </div>
+    </div>
+
+
+    <script>
+        let GLOBAL_NETWORK_LIST = [];
+        
+        // --- Configuration ---
+        const API_ENDPOINT = 'http://127.0.0.1:5000/score_signal';
+        const SCAN_DURATION_MS = 4000; 
+        const DUMMY_POST_BODY = JSON.stringify({ "dummy": "request" });
+
+        // --- DOM Elements ---
+        const scanSection = document.getElementById('scanning');
+        const reportSection = document.getElementById('report-view');
+        const statusText = document.getElementById('status-text');
+        const progressFill = document.getElementById('progress-fill');
+        const threatCountEl = document.getElementById('threat-count');
+        const radar = document.getElementById('scan-radar');
+
+        // --- Utility Functions ---
+
+        function animateCounters(finalDeviceCount, threatCount) {
+            const totalTime = SCAN_DURATION_MS;
+            const startTime = performance.now();
+            let animationFrameId;
+
+            const update = (currentTime) => {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / totalTime, 1);
+                
+                const currentDevices = Math.floor(progress * 5); 
+                
+                if (progress > 0.5) {
+                    const threatProgress = (progress - 0.5) * 2;
+                    let currentThreats = Math.floor(threatProgress * threatCount); 
+                    threatCountEl.textContent = currentThreats;
+                }
+
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(update);
+                } else {
+                    threatCountEl.textContent = threatCount;
+                    document.getElementById('scan-results').style.opacity = '1';
+                }
+            };
+            requestAnimationFrame(update);
+        }
+        
+        /**
+         * Function executed when the 'I' icon is clicked.
+         * @param {number} index - The index of the network in the GLOBAL_NETWORK_LIST array.
+         */
+        window.showRawData = function(index) {
+            const networkData = GLOBAL_NETWORK_LIST[index];
+            if (networkData) {
+                // Prettify the JSON data for display
+                const jsonString = JSON.stringify(networkData, null, 4);
+                document.getElementById('modal-json-content').textContent = jsonString;
+                document.getElementById('rawDataModal').style.display = 'block';
+            }
+        }
+        
+        function populateNetworkList(networkList) {
+            const tbody = document.querySelector('#network-list-table tbody');
+            tbody.innerHTML = ''; // Clear previous results
+            GLOBAL_NETWORK_LIST = networkList; // Save the list globally
+
+            let threatCount = 0;
+
+            networkList.forEach((net, index) => {
+                const row = tbody.insertRow();
+                // Determine security status based on the Is_Secure flag (0 = Unsecured/Threat)
+                // Use fallback to 1 if Is_Secure isn't explicitly 0 or 1
+                const isSecureFlag = net.Is_Secure !== undefined ? net.Is_Secure : 1; 
+                const isThreat = isSecureFlag === 0;
+                
+                if (isThreat) {
+                    threatCount++;
+                }
+
+                const rowCellClass = isThreat ? 'threat-row' : '';
+                
+                // Populate cells
+                row.insertCell().textContent = net.SSID || 'N/A';
+                row.insertCell().textContent = net['Signal (%)'] || 'N/A';
+                row.insertCell().textContent = net.Authentication || 'N/A';
+                
+                // Status column
+                const statusCell = row.insertCell();
+                statusCell.textContent = isThreat ? 'THREAT / OPEN' : 'SECURE';
+                if (isThreat) statusCell.classList.add('threat-row');
+
+                // Action column (Info Icon)
+                const actionCell = row.insertCell();
+                actionCell.innerHTML = `<span class="info-icon" onclick="showRawData(${index})">i</span>`;
+            });
+            
+            return threatCount;
+        }
+
+
+        /**
+         * Loads the result, hides the scan, and displays the final report structure.
+         */
+        function displayReport(aiReport) {
+            // Unpack data from API response (or error fallback)
+            const result = aiReport.result || 'ERROR';
+            const anomalyScore = aiReport.score || 999.0;
+            const rawFeatures = Array.isArray(aiReport.raw_features) ? aiReport.raw_features : [-1,-1,-1,-1,-1]; 
+            const ssid = aiReport.ssid || 'NETWORK_FAILED'; 
+            const networkList = aiReport.networks || []; // CRITICAL: Get the full list
+
+            const threatStatusEl = document.querySelector('.threat-status');
+            const threatStatusH2 = document.getElementById('threat-h2');
+            const threatDetailsDiv = document.getElementById('threat-details');
+            
+            // Format features for display
+            const features = rawFeatures.map(f => typeof f === 'number' ? f.toFixed(2) : f);
+
+            // 1. Update Metadata
+            document.getElementById('scan-time').textContent = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('report-id').textContent = `WHISPR-${Math.floor(Math.random() * 900) + 100}-${Math.random().toString(16).slice(2, 6).toUpperCase()}`;
+            document.getElementById('connected-ssid').textContent = ssid;
+            document.getElementById('raw-features-output').textContent = `[${features.join(', ')}]`;
+            
+            // 2. Populate the Network List (and count the threats)
+            const listThreatCount = populateNetworkList(networkList);
+            
+            // 3. Determine UI State and Content
+            let contentHTML = '';
+            let finalThreatCount = listThreatCount; // Use the count from the network list
+
+            if (result === 'BENIGN') {
+                finalThreatCount = 0; // Override if AI is benign
+                threatStatusH2.textContent = `THREAT LEVEL: NONE (Anomaly Score: ${anomalyScore.toFixed(4)})`;
+                threatStatusEl.style.background = 'linear-gradient(90deg, var(--color-neon-blue), rgba(0, 150, 255, 0.4))';
+                threatStatusEl.style.borderColor = 'var(--color-neon-blue)';
+                threatStatusEl.style.boxShadow = '0 0 15px var(--color-neon-blue)';
+                
+                contentHTML = `
+                    <div class="threat-category">
+                        <h3>Scan Validation (AI Confidence)</h3>
+                        <div class="threat-item" style="border-left: 5px solid var(--color-neon-blue); background: rgba(0, 229, 255, 0.1);">
+                            <h4>Validated Network: ${ssid}</h4>
+                            <p>No critical anomalies detected. The AI model scored the signal as within the expected **'BENIGN'** profile. Device is currently secure.</p>
+                        </div>
+                    </div>
+                `;
+
+            } else if (result === 'THREAT') {
+                threatStatusH2.textContent = `THREAT LEVEL: HIGH (Anomaly Score: ${anomalyScore.toFixed(4)})`;
+                
+                contentHTML = `
+                    <div class="threat-category">
+                        <h3>Category: Wi-Fi Protocol Breach</h3>
+                        <div class="threat-item">
+                            <h4>Threat ID: FAKE-AP-001 (Honeypot Network)</h4>
+                            <p>Description: Detected network with **OUI Trust Score of ${features[3]}** and **probe frequency of ${features[2]}**. Confirms aggressive network profile (possible Honeypot).</p>
+                        </div>
+                        <div class="threat-item">
+                            <h4>Threat ID: DUAL-SSID-002 (Signal Instability)</h4>
+                            <p>Description: Detected **high RSSI variance (${features[1]})** despite a strong signal **(${features[0]} dBm)**. Indicates signal instability or potential jamming.</p>
+                        </div>
+                    </div>
+                    <div class="threat-category">
+                        <h3>Secure Recommendations</h3>
+                        <div class="threat-item" style="border-left: 5px solid var(--color-neon-blue); background: rgba(0, 229, 255, 0.1);">
+                            <h4>Recommendation: Immediate Protocol Change</h4>
+                            <p>Disconnect from **${ssid}**. Enable device-level encryption. Re-run WHISPR scan in a new location.</p>
+                        </div>
+                    </div>
+                `;
+            } else { 
+                // Error State
+                finalThreatCount = 0;
+                threatStatusH2.textContent = `THREAT LEVEL: UNKNOWN (AI Service Failure)`;
+                threatStatusEl.style.background = 'linear-gradient(90deg, orange, rgba(255, 69, 0, 0.4))';
+                
+                contentHTML = `
+                    <p style="text-align:center; color: var(--color-text-fade); margin-top: 2rem;">
+                        Could not load detailed diagnostics. Please check the Python console for errors.
+                        <br>Error Code: ${result}
+                    </p>
+                `;
+            }
+
+            threatDetailsDiv.innerHTML = contentHTML;
+            
+            // Update the threat count display in the animation results area
+            threatCountEl.textContent = finalThreatCount;
+
+            // 4. Swap Views
+            scanSection.style.display = 'none';
+            reportSection.style.display = 'block';
+            setTimeout(() => {
+                reportSection.style.opacity = 1;
+            }, 50); 
+        }
+
+        /**
+         * Core function to start the scan and call the AI API.
+         */
+        async function initiateScan() {
+            
+            // 1. Reset UI states
+            progressFill.style.width = '0';
+            statusText.textContent = "Initializing AI Core Connection...";
+            
+            // 2. Start UI Animation
+            progressFill.style.transitionDuration = `${SCAN_DURATION_MS / 1000}s`;
+            setTimeout(() => { progressFill.style.width = '100%'; }, 50);
+
+            // Simulate status updates
+            setTimeout(() => statusText.textContent = `Initiating Passive Network Scan...`, 1000);
+            setTimeout(() => statusText.textContent = "Fetching complete network list from data bridge...", 2000);
+            setTimeout(() => statusText.textContent = "AI Core: Scoring Anomaly Distance...", 3000);
+            
+            // 3. Perform AI Calculation (Async API Call)
+            let aiResponse = { result: "ERROR", score: 999.0, raw_features: [-1,-1,-1,-1,-1], ssid: "API_FAILURE", networks: [] }; 
+
+            try {
+                // This call triggers the app.py Flask server to read the JSON file.
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: DUMMY_POST_BODY 
+                });
+                
+                if (response.ok) {
+                    aiResponse = await response.json();
+                } else {
+                    console.error("API Error (Status):", response.status, response.statusText);
+                    aiResponse.result = "SERVER_ERROR"; 
+                }
+
+            } catch (error) {
+                console.error("Fetch failed (Connection Error):", error);
+                aiResponse.result = "NETWORK_ERROR"; 
+            }
+
+            // 4. Wait for the animation to finish
+            await new Promise(resolve => setTimeout(resolve, SCAN_DURATION_MS));
+
+            // 5. Handle Final Results and Display Report
+            statusText.textContent = "Scan Protocol Complete. Generating Report...";
+            displayReport(aiResponse);
+        }
+
+        // Auto-start the scan when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+             initiateScan();
+        });
+        
+        // Theming (Simplified version of theme-toggle.js)
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const toggleButton = document.getElementById('theme-toggle');
+            
+            // Note: If you want proper theme toggling, ensure the light-mode CSS variables are defined in the <style> block.
+
+            if (toggleButton) {
+                toggleButton.addEventListener('click', () => {
+                    body.classList.toggle('light-mode');
+                    if (body.classList.contains('light-mode')) {
+                        toggleButton.textContent = 'Mode: Light';
+                    } else {
+                        toggleButton.textContent = 'Mode: Dark';
+                    }
+                });
+            }
+        });
+        
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('rawDataModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

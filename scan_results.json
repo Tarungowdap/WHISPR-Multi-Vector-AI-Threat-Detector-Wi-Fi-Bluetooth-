@@ -1,0 +1,132 @@
+[
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "7e:61:66:4d:af:c7",
+        "Signal (%)": "35%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Hidden/Unknown"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "JIT77",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "9c:a2:f4:cf:00:9b",
+        "Signal (%)": "82%",
+        "Radio Type": "802.11ac",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "Excitel_Suhas",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "64:fb:92:c0:89:04",
+        "Signal (%)": "90%",
+        "Radio Type": "802.11ac",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "Anu",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "50:2b:73:2c:f2:51",
+        "Signal (%)": "43%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "www.excitel.com",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "64:fb:92:c0:89:09",
+        "Signal (%)": "95%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "Vaagmi 2.4G",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "64:fb:92:60:29:b8",
+        "Signal (%)": "78%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "ACT102662104794_5g",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "2a:87:ba:a8:cc:8c",
+        "Signal (%)": "20%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "Dakshinamoorthy",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "28:87:ba:88:cc:8c",
+        "Signal (%)": "20%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "369_5G",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "52:d4:f7:e9:a5:1e",
+        "Signal (%)": "24%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "369",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "50:d4:f7:ef:a5:1e",
+        "Signal (%)": "31%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "PORTAL_6788",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "00:78:cd:03:00:b6",
+        "Signal (%)": "31%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "Airtel_Jwala",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "40:48:6e:d0:a3:19",
+        "Signal (%)": "46%",
+        "Radio Type": "802.11ax",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    },
+    {
+        "Timestamp": "2025-10-07 18:16:56",
+        "SSID": "PPC188FC-2.4G",
+        "Authentication": "WPA2-Personal",
+        "BSSID": "64:fb:92:c0:89:08",
+        "Signal (%)": "95%",
+        "Radio Type": "802.11n",
+        "Is_Secure": 1,
+        "SSID_Type": "Personal/Residential"
+    }
+]

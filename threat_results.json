@@ -1,0 +1,394 @@
+{
+    "scan_time": "2025-10-06 13:55:51",
+    "iteration": 79,
+    "devices_detected": 43,
+    "devices": [
+        {
+            "status": "LOW",
+            "distance_m": 2.68,
+            "rssi_dbm": -71,
+            "description": "Normal proximity detection (2.68m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "0F:08:48:CF:B2:A1",
+            "address": "0F:08:48:CF:B2:A1"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 3.43,
+            "rssi_dbm": -74,
+            "description": "Safe distance (3.43m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "11:F6:51:E5:59:A9",
+            "address": "11:F6:51:E5:59:A9"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 2.68,
+            "rssi_dbm": -71,
+            "description": "Normal proximity detection (2.68m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "3F:D5:CF:86:60:2B",
+            "address": "3F:D5:CF:86:60:2B"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 4.05,
+            "rssi_dbm": -76,
+            "description": "Safe distance (4.05m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "XTEND",
+            "address": "E4:FA:2D:E7:15:D4"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.51,
+            "rssi_dbm": -64,
+            "description": "Normal proximity detection (1.51m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "18:65:8E:B7:51:19",
+            "address": "18:65:8E:B7:51:19"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.18,
+            "rssi_dbm": -61,
+            "description": "Normal proximity detection (1.18m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "77:20:E6:5F:FC:37",
+            "address": "77:20:E6:5F:FC:37"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 4.05,
+            "rssi_dbm": -76,
+            "description": "Safe distance (4.05m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "06:DE:96:D8:6E:6B",
+            "address": "06:DE:96:D8:6E:6B"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 2.47,
+            "rssi_dbm": -70,
+            "description": "Normal proximity detection (2.47m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "0B:7D:B3:4C:F5:41",
+            "address": "0B:7D:B3:4C:F5:41"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 6.11,
+            "rssi_dbm": -81,
+            "description": "Safe distance (6.11m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "7F:69:C0:BC:19:F0",
+            "address": "7F:69:C0:BC:19:F0"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 2.68,
+            "rssi_dbm": -71,
+            "description": "Normal proximity detection (2.68m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "68:AB:32:B1:95:AA",
+            "address": "68:AB:32:B1:95:AA"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.93,
+            "rssi_dbm": -67,
+            "description": "Normal proximity detection (1.93m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "24:7E:86:37:27:F9",
+            "address": "24:7E:86:37:27:F9"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 2.68,
+            "rssi_dbm": -71,
+            "description": "Normal proximity detection (2.68m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "1F:C9:74:F1:13:FB",
+            "address": "1F:C9:74:F1:13:FB"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.78,
+            "rssi_dbm": -66,
+            "description": "Normal proximity detection (1.78m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "D4:66:9A:B7:9D:A1",
+            "address": "D4:66:9A:B7:9D:A1"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 2.68,
+            "rssi_dbm": -71,
+            "description": "Normal proximity detection (2.68m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "F2:AB:86:D0:6C:CB",
+            "address": "F2:AB:86:D0:6C:CB"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 9.21,
+            "rssi_dbm": -86,
+            "description": "Safe distance (9.21m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "0A:F0:7C:33:2A:6C",
+            "address": "0A:F0:7C:33:2A:6C"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.93,
+            "rssi_dbm": -67,
+            "description": "Normal proximity detection (1.93m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "61:B4:7D:6A:DC:74",
+            "address": "61:B4:7D:6A:DC:74"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.28,
+            "rssi_dbm": -62,
+            "description": "Normal proximity detection (1.28m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "44:50:16:8B:DF:BF",
+            "address": "44:50:16:8B:DF:BF"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.28,
+            "rssi_dbm": -62,
+            "description": "Normal proximity detection (1.28m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "67:02:FB:BB:51:55",
+            "address": "67:02:FB:BB:51:55"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.64,
+            "rssi_dbm": -65,
+            "description": "Normal proximity detection (1.64m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "5B:5B:FE:FF:31:8E",
+            "address": "5B:5B:FE:FF:31:8E"
+        },
+        {
+            "status": "HIGH",
+            "distance_m": 0.1,
+            "rssi_dbm": -54,
+            "description": "Unusually close device (0.10m). Potential for proximity attack (e.g., unauthorized pairing).",
+            "device_type_code": 2,
+            "device_name": "6D:45:4A:53:C6:F3",
+            "address": "6D:45:4A:53:C6:F3"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 3.16,
+            "rssi_dbm": -73,
+            "description": "Safe distance (3.16m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "4E:44:98:76:D2:0D",
+            "address": "4E:44:98:76:D2:0D"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 4.77,
+            "rssi_dbm": -78,
+            "description": "Safe distance (4.77m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "3C:80:F3:69:F3:3E",
+            "address": "3C:80:F3:69:F3:3E"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 3.43,
+            "rssi_dbm": -74,
+            "description": "Safe distance (3.43m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "0B:7D:C5:D4:E0:B3",
+            "address": "0B:7D:C5:D4:E0:B3"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.39,
+            "rssi_dbm": -63,
+            "description": "Normal proximity detection (1.39m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "4C:28:9A:37:A1:DD",
+            "address": "4C:28:9A:37:A1:DD"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.09,
+            "rssi_dbm": -60,
+            "description": "Normal proximity detection (1.09m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "17:CF:99:D2:F4:54",
+            "address": "17:CF:99:D2:F4:54"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 5.18,
+            "rssi_dbm": -79,
+            "description": "Safe distance (5.18m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "0B:E3:C4:4F:8A:B9",
+            "address": "0B:E3:C4:4F:8A:B9"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 4.05,
+            "rssi_dbm": -76,
+            "description": "Safe distance (4.05m). Minimal threat risk.",
+            "device_type_code": 4,
+            "device_name": "OnMicro-OTA",
+            "address": "F3:26:87:6E:1D:57"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.09,
+            "rssi_dbm": -60,
+            "description": "Normal proximity detection (1.09m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "66:5F:59:EC:A5:C8",
+            "address": "66:5F:59:EC:A5:C8"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.09,
+            "rssi_dbm": -60,
+            "description": "Normal proximity detection (1.09m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "73:69:F5:F7:FB:12",
+            "address": "73:69:F5:F7:FB:12"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 5.62,
+            "rssi_dbm": -80,
+            "description": "Safe distance (5.62m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "28:94:28:2F:C7:E7",
+            "address": "28:94:28:2F:C7:E7"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 2.68,
+            "rssi_dbm": -71,
+            "description": "Normal proximity detection (2.68m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "1B:F1:DD:68:B6:04",
+            "address": "1B:F1:DD:68:B6:04"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 3.73,
+            "rssi_dbm": -75,
+            "description": "Safe distance (3.73m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "1E:54:9C:1D:73:15",
+            "address": "1E:54:9C:1D:73:15"
+        },
+        {
+            "status": "HIGH",
+            "distance_m": 0.1,
+            "rssi_dbm": -35,
+            "description": "Unusually close device (0.10m). Potential for proximity attack (e.g., unauthorized pairing).",
+            "device_type_code": 2,
+            "device_name": "51:1E:C0:0C:1E:66",
+            "address": "51:1E:C0:0C:1E:66"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.64,
+            "rssi_dbm": -65,
+            "description": "Normal proximity detection (1.64m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "1A:FF:06:BB:76:1C",
+            "address": "1A:FF:06:BB:76:1C"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 4.39,
+            "rssi_dbm": -77,
+            "description": "Safe distance (4.39m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "54:9C:14:35:DE:D7",
+            "address": "54:9C:14:35:DE:D7"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.28,
+            "rssi_dbm": -62,
+            "description": "Normal proximity detection (1.28m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "03:79:D0:4D:45:D4",
+            "address": "03:79:D0:4D:45:D4"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.28,
+            "rssi_dbm": -62,
+            "description": "Normal proximity detection (1.28m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "53:00:8B:EA:D7:9A",
+            "address": "53:00:8B:EA:D7:9A"
+        },
+        {
+            "status": "HIGH",
+            "distance_m": 0.1,
+            "rssi_dbm": -57,
+            "description": "Unusually close device (0.10m). Potential for proximity attack (e.g., unauthorized pairing).",
+            "device_type_code": 2,
+            "device_name": "57:3A:04:19:9A:27",
+            "address": "57:3A:04:19:9A:27"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.64,
+            "rssi_dbm": -65,
+            "description": "Normal proximity detection (1.64m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "23:96:39:E0:5A:41",
+            "address": "23:96:39:E0:5A:41"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 1.39,
+            "rssi_dbm": -63,
+            "description": "Normal proximity detection (1.39m). Generally secure.",
+            "device_type_code": 2,
+            "device_name": "EB:FA:ED:AA:55:ED",
+            "address": "EB:FA:ED:AA:55:ED"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 5.62,
+            "rssi_dbm": -80,
+            "description": "Safe distance (5.62m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "6F:1A:57:8D:8E:44",
+            "address": "6F:1A:57:8D:8E:44"
+        },
+        {
+            "status": "LOW",
+            "distance_m": 22.76,
+            "rssi_dbm": -97,
+            "description": "Safe distance (22.76m). Minimal threat risk.",
+            "device_type_code": 2,
+            "device_name": "A0:91:CA:CF:08:5E",
+            "address": "A0:91:CA:CF:08:5E"
+        },
+        {
+            "status": "HIGH",
+            "distance_m": 0.1,
+            "rssi_dbm": -47,
+            "description": "Unusually close device (0.10m). Potential for proximity attack (e.g., unauthorized pairing).",
+            "device_type_code": 2,
+            "device_name": "70:EC:41:20:CA:3C",
+            "address": "70:EC:41:20:CA:3C"
+        }
+    ]
+}

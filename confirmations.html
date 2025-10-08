@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHISPR - Scan Report</title>
+    <!-- Assuming style.css and theme-toggle.js are in the same directory -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js"></script>
+    <script src="scroll-animations.js"></script> 
+    <style>
+        /* --- Report Page Specific Styles --- */
+        .report-screen {
+            min-height: 100vh;
+            padding-top: 8rem; 
+            padding-bottom: 4rem;
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .report-header h1 {
+            font-size: 3.5rem;
+            color: var(--color-neon-pink);
+            text-shadow: 0 0 10px var(--color-neon-pink);
+        }
+
+        .report-metadata {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 0.9rem;
+            color: var(--color-text-fade);
+            border-top: 1px dotted var(--color-text-fade);
+            padding-top: 15px;
+            margin-top: 20px; 
+            margin-bottom: 20px; 
+        }
+
+        .metadata-item span {
+            color: var(--color-neon-blue);
+            font-weight: bold;
+        }
+        
+        /* New Section for Raw Data Display */
+        .raw-data-display {
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+            padding: 20px;
+            border: 1px solid var(--color-neon-blue);
+            background: rgba(0, 229, 255, 0.05);
+            text-align: left;
+        }
+        .raw-data-display h4 {
+            color: var(--color-neon-blue);
+            border-bottom: 1px dashed var(--color-text-fade);
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .raw-data-display code {
+            display: block;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            color: #00FF7F; /* Neon Green for code */
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+
+        /* Threat Status Bar (Default THREAT style - overridden by JS for BENIGN/ERROR) */
+        .threat-status {
+            background: linear-gradient(90deg, var(--color-neon-pink), rgba(255, 0, 0, 0.4));
+            padding: 20px;
+            text-align: center;
+            margin: 2rem 0;
+            border: 2px solid var(--color-neon-pink);
+            box-shadow: 0 0 15px var(--color-neon-pink);
+            animation: slideInRight 1.5s ease-out;
+            transition: all 0.5s ease;
+        }
+
+        .threat-status h2 {
+            margin: 0;
+            color: var(--color-text-light);
+            font-size: 2rem;
+        }
+
+        /* Threat Details */
+        .threat-details {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .threat-category {
+            margin-bottom: 3rem;
+        }
+
+        .threat-category h3 {
+            border-bottom: 2px solid var(--color-neon-blue);
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .threat-item {
+            background: rgba(255, 0, 153, 0.1);
+            border-left: 5px solid var(--color-neon-pink);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .threat-item h4 {
+            color: var(--color-neon-pink);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .threat-item p {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin: 0;
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+    </style>
+</head>
+<body class="dark-bg">
+
+    <div class="data-stream-background"></div>
+
+    <header class="navbar">
+        <div class="logo glitch" data-text="DIAGNOSTIC REPORT">DIAGNOSTIC REPORT</div>
+        <nav>
+            <button id="theme-toggle" class="cta-button" style="margin-right: 20px;"></button>
+            <a href="docx2.html" class="cta-button">Secure Exit</a>
+        </nav>
+    </header>
+
+    <section id="report" class="content-section report-screen">
+        <div class="report-header">
+            <h1>PROTOCOL DIAGNOSTIC REPORT</h1>
+            <div class="report-metadata">
+                <div class="metadata-item">Scan Time: <span id="scan-time"></span></div>
+                <!-- ID to display the local network name -->
+                <div class="metadata-item">Connected Network: <span id="connected-ssid">UNKNOWN</span></div>
+                <div class="metadata-item">Report ID: <span id="report-id"></span></div>
+            </div>
+        </div>
+        
+        <div class="raw-data-display">
+             <h4>Raw Scan Data Sent to AI Core:</h4>
+             <!-- ID to display the raw features array -->
+             <code id="raw-features-output">LOADING...</code>
+             <p style="margin-top: 10px; color: var(--color-text-fade);">Order: [RSSI\_MEAN, RSSI\_VARIANCE, PROBE\_RATE, OUI\_TRUST\_SCORE, ANOMALY\_FLAG]</p>
+        </div>
+
+
+        <div class="threat-status">
+            <h2 id="threat-h2">THREAT LEVEL: HIGH (3 Critical Threats Identified)</h2>
+        </div>
+
+        <div class="threat-details" id="threat-details">
+            <!-- Default THREAT Content - will be replaced for BENIGN/ERROR -->
+            <div class="threat-category">
+                <h3>Category: Wi-Fi Protocol Breach</h3>
+                
+                <div class="threat-item animate-on-scroll fade-in-left">
+                    <h4 id="threat-001-h4">Threat ID: FAKE-AP-001 (Honeypot Network)</h4>
+                    <p id="threat-001-p">Description: Detected network with **critical OUI Trust Score** and **extreme probe frequency**. Confirms aggressive network profile.</p>
+                </div>
+                
+                <div class="threat-item animate-on-scroll fade-in-left delay-200">
+                    <h4 id="threat-002-h4">Threat ID: DUAL-SSID-002 (Signal Instability)</h4>
+                    <p id="threat-002-p">Description: Detected **high RSSI variance** despite a strong signal. Indicates signal instability or potential jamming.</p>
+                </div>
+            </div>
+
+            <div class="threat-category">
+                <h3>Category: Bluetooth & Signal Anomaly</h3>
+
+                <div class="threat-item animate-on-scroll fade-in-left delay-400">
+                    <h4 id="threat-003-h4">Threat ID: SNIFFER-BT-003 (Protocol Violation)</h4>
+                    <p id="threat-003-p">Description: Identified device with active **PROTOCOL\_ANOMALY\_FLAG**. Violation of standard connection handshake rules.</p>
+                </div>
+            </div>
+            
+            <div class="threat-category">
+                <h3 id="recommendation-header">Secure Recommendations</h3>
+                <div id="recommendation-item" class="threat-item" style="border-left: 5px solid var(--color-neon-blue); background: rgba(0, 229, 255, 0.1);">
+                    <h4>Recommendation: Immediate Protocol Change</h4>
+                    <p>Disconnect from all public networks. Enable device-level encryption. Re-run WHISPR scan in a new location. Deploy two-factor authentication on all sensitive accounts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-section dark-bg">
+        <p class="quote glitch" data-text="PROTOCOL SECURED.">"PROTOCOL SECURED."</p>
+        <div class="team-info">Team CIPHER.</div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA RETRIEVAL (Reading from Local Storage) ---
+            const result = localStorage.getItem('whispr_scan_result');
+            const anomalyScore = parseFloat(localStorage.getItem('whispr_anomaly_score'));
+            const rawFeatures = JSON.parse(localStorage.getItem('whispr_raw_features')) || [];
+            // CRITICAL: Get the SSID saved by scan.html
+            const connectedSsid = localStorage.getItem('whispr_network_ssid') || 'UNKNOWN_NETWORK';
+            
+            // --- DOM Elements ---
+            const threatStatusEl = document.querySelector('.threat-status');
+            const threatStatusH2 = document.getElementById('threat-h2');
+            const threatDetailsDiv = document.getElementById('threat-details');
+            const quote = document.querySelector('.quote');
+            
+            // --- METADATA UPDATE ---
+            document.getElementById('scan-time').textContent = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('report-id').textContent = `WHISPR-${Math.floor(Math.random() * 900) + 100}-${Math.random().toString(16).slice(2, 6).toUpperCase()}`;
+            // Inject the connected network name here
+            document.getElementById('connected-ssid').textContent = connectedSsid;
+            
+            // Format features for display (ensure numbers are readable)
+            const features = rawFeatures.map(f => typeof f === 'number' ? f.toFixed(2) : f);
+            
+            // --- RAW DATA DISPLAY ---
+            document.getElementById('raw-features-output').textContent = 
+                `[${features[0]}, ${features[1]}, ${features[2]}, ${features[3]}, ${features[4]}]`;
+
+
+            // --- CORE STATE-BASED UI LOGIC ---
+            if (result === 'BENIGN') {
+                // Secure Status
+                threatStatusH2.textContent = `THREAT LEVEL: NONE (Anomaly Score: ${anomalyScore.toFixed(4)})`;
+                threatStatusEl.style.background = 'linear-gradient(90deg, var(--color-neon-blue), rgba(0, 150, 255, 0.4))';
+                threatStatusEl.style.borderColor = 'var(--color-neon-blue)';
+                threatStatusEl.style.boxShadow = '0 0 15px var(--color-neon-blue)';
+                
+                // BENIGN Report Structure
+                threatDetailsDiv.innerHTML = `
+                    <div class="threat-category">
+                        <h3>Scan Validation (AI Confidence)</h3>
+                        <div class="threat-item" style="border-left: 5px solid var(--color-neon-blue); background: rgba(0, 229, 255, 0.1);">
+                            <h4>Validated Network: ${connectedSsid}</h4>
+                            <p>No critical anomalies detected. The AI model scored the signal as within the expected **'BENIGN'** profile. Device is currently secure.</p>
+                        </div>
+                        <div class="threat-item" style="border-left: 5px solid var(--color-neon-blue); background: rgba(0, 229, 255, 0.1);">
+                            <h4>Recommendation: Protocol Stable</h4>
+                            <p>Continue monitoring, especially in high-risk environments. This network is currently secure.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (result === 'THREAT') {
+                // Threat Status (Default style)
+                threatStatusH2.textContent = `THREAT LEVEL: HIGH (Anomaly Score: ${anomalyScore.toFixed(4)})`;
+
+                // Update THREAT Descriptions with Real Data
+                document.getElementById('threat-001-p').innerHTML = `Description: Detected network with **OUI Trust Score of ${features[3]}** and **probe frequency of ${features[2]}**. Confirms aggressive network profile (possible Honeypot).`;
+                document.getElementById('threat-002-p').innerHTML = `Description: Detected **high RSSI variance (${features[1]})** despite a strong signal **(${features[0]} dBm)**. Indicates signal instability or potential jamming.`;
+                document.getElementById('threat-003-p').innerHTML = `Description: Identified device with active **PROTOCOL\_ANOMALY\_FLAG (${features[4]})**. Violating connection handshake rules.`;
+
+            } else { 
+                // Handle ERROR or SERVER_ERROR case
+                threatStatusH2.textContent = "THREAT LEVEL: UNKNOWN (AI Service Failure)";
+                threatStatusEl.style.background = 'linear-gradient(90deg, orange, rgba(255, 69, 0, 0.4))';
+                threatDetailsDiv.innerHTML = '<p style="text-align:center; color: var(--color-text-fade);">Could not load detailed diagnostics. Please re-run the scan and verify the AI Core server is active and accessible.</p>';
+            }
+
+            // --- REPORT ANIMATION LOGIC (Runs for all cases) ---
+
+            function flicker(element, times) {
+                if (!element) return;
+                let count = 0;
+                const originalText = element.textContent;
+                const flickerInterval = setInterval(() => {
+                    if (count >= times) {
+                        clearInterval(flickerInterval);
+                        element.textContent = originalText;
+                        return;
+                    }
+                    element.textContent = (count % 2 === 0) ? originalText : '...';
+                    count++;
+                }, 100);
+            }
+
+            const metadataSpans = document.querySelectorAll('.report-metadata span');
+            metadataSpans.forEach((span, index) => {
+                span.style.opacity = 0; 
+                setTimeout(() => {
+                    span.style.transition = 'opacity 0.5s ease';
+                    span.style.opacity = 1;
+                    flicker(span, 6);
+                }, 500 + index * 200);
+            });
+            
+            const visibleThreatItems = document.querySelectorAll('.threat-details .threat-item');
+            visibleThreatItems.forEach((item, index) => {
+                item.style.opacity = 0;
+                item.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    item.style.opacity = 1;
+                    item.style.transform = 'translateX(0)';
+                }, 1000 + index * 300);
+            });
+
+            setTimeout(() => {
+                flicker(quote, 10);
+            }, 1000 + visibleThreatItems.length * 300);
+
+        });
+    </script>
+</body>
+</html>
