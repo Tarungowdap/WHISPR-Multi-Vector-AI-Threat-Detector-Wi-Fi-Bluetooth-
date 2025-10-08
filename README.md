@@ -17,6 +17,5 @@ Dependencies: pip install Flask numpy joblib bleak
 Run: Launch local_data_bridge.py, bluetooth_detection_model.py, and app.py in three terminals.
 
 View: Navigate to http://127.0.0.1:5000/scan.html
-
-![Alt text](https://link-to-your-image.png)
+![Homepage](homepage.png)
 
